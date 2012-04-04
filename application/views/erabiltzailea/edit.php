@@ -1,5 +1,3 @@
-<?php $this->load->view('layouts/admin/header');?>
-<body>
    <h1> Please Login</h1>
     <?php if (validation_errors()) { ?>
       <div class="message_error">
@@ -52,9 +50,4 @@
    <?php echo form_close(); ?>
 
    <?php echo validation_errors(); ?>
-   <?php $this->load->view('layouts/admin/footer');?>
-
-   <!-- echo form_dropdown('remeras', $opciones, 'large');-->
-</body>
-</html>	
 

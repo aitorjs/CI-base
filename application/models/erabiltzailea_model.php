@@ -9,10 +9,8 @@ class Erabiltzailea_model extends CI_Model {
         parent::__construct();
     }
     
-    function get_last_ten_entries()
-    {
-        $query = $this->db->get('erabiltzaileak');
-       // var_dump($query); exit();
+    function get_erabiltzaileak($num, $offset) {
+        $query = $this->db->get('erabiltzaileak', $num, $offset);  
         return $query->result();
     }
 
@@ -26,7 +24,7 @@ class Erabiltzailea_model extends CI_Model {
         {   
             return $query->row();
         }
-        echo "ERROR!";
+        $this->session->set_flashdata('message_error', 'Correo electrónico o contraseña incorrectas.');
         return false;
     }
 
@@ -83,5 +81,10 @@ class Erabiltzailea_model extends CI_Model {
     function delete_erabiltzailea($id)
     {
         $this->db->delete('erabiltzaileak', array('id' => $id));
+    }
+
+    function count_all_erabiltzaileak()
+    {
+        return $this->db->count_all('erabiltzaileak');
     }
 }

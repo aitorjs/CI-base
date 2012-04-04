@@ -1,5 +1,3 @@
-<?php $this->load->view('layouts/admin/header');?>
-<body>
    <h1> Please Login</h1>
    <?php if (validation_errors()) { ?>
       <div class="message_error">
@@ -45,8 +43,3 @@
       <?php echo form_submit('submit', 'Login'); ?>
    </p>
    <?php echo form_close(); ?>
-
-   <?php $this->load->view('layouts/admin/footer');?>
-</body>
-</html>	
-

@@ -1,20 +1,43 @@
 <?php 
 class Erabiltzailea extends CI_Controller {
 
+    public $data = array('subview' => 'Oops, forgot to set a subview');
+
 	 function __construct()
     {
         parent::__construct();
-        $this->load->model('erabiltzailea_model'); 
+        $this->load->model('erabiltzailea_model');
+        $this->load->helper('url');
     }
 
 
     function index()
     {
+        if ($this->uri->segment(3) > $this->erabiltzailea_model->count_all_erabiltzaileak()) {
+          redirect('erabiltzailea/');
+        }
+        $this->load->library('pagination');
+        $config['base_url'] = base_url().'erabiltzailea/index';
+        $config['total_rows'] = $this->erabiltzailea_model->count_all_erabiltzaileak();
+       // $config['total_rows'] = '20';
+        $config['per_page'] = '5';
+        $config['first_link'] = 'Hasiera';
+        $config['last_link'] = 'Azkena';
+
+        //$config['uri_segment'] = 2;
+        $this->pagination->initialize($config);
+        $data['pagination'] = $this->pagination->create_links();
+
         $data['title'] = 'Erabiltzaileak';
         $data['heading'] = 'Erabiltzaileak';
 
-        $data['data'] = $this->erabiltzailea_model->get_last_ten_entries();
-        $this->load->view('erabiltzailea/index', $data);
+        $data['data'] = $this->erabiltzailea_model->get_erabiltzaileak($config['per_page'],$this->uri->segment(3));
+       // var_dump($data['data']);
+        // $data['results'] = $this->books_model->get_books($config['per_page'],$this->uri->segment(3));
+
+        $data['subview'] = 'erabiltzailea/index';
+        $this->load->view('layouts/layout', $data);
+        //$this->load->view('erabiltzailea/index', $data);
     }
 
      function add()
@@ -33,7 +56,9 @@ class Erabiltzailea extends CI_Controller {
           redirect('erabiltzailea');
         } else {
           $data['motak'] = $this->erabiltzailea_model->get_motak();
-          $this->load->view('erabiltzailea/add', $data);
+          $data['subview'] = 'erabiltzailea/add';
+          $this->load->view('layouts/layout', $data);
+         // $this->load->view('erabiltzailea/add', $data);
         }
     }
 
@@ -60,7 +85,9 @@ class Erabiltzailea extends CI_Controller {
         } else {
           $data['erabiltzailea'] = $this->erabiltzailea_model->get_erabiltzailea($id);
           $data['motak'] = $this->erabiltzailea_model->get_motak();
-          $this->load->view('erabiltzailea/edit', $data);
+          // $this->load->view('erabiltzailea/edit', $data);
+          $data['subview'] = 'erabiltzailea/edit';
+          $this->load->view('layouts/layout', $data);
         }
     }
 
@@ -101,7 +128,9 @@ class Erabiltzailea extends CI_Controller {
             redirect('bloga', $data);
          }
       }
-      $this->load->view('erabiltzailea/login');
+      //$this->load->view('erabiltzailea/login');
+      $data['subview'] = 'erabiltzailea/login';
+      $this->load->view('layouts/layout', $data);
    }
 
    public function logout()
