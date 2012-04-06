@@ -11,24 +11,24 @@
    </div>
    <?php } ?>
    
-   <?php echo form_open('erabiltzailea/edit/'.$erabiltzailea->id); ?>
+   <?php var_dump($erabiltzailea['id']);echo form_open('erabiltzailea/update/'.$erabiltzailea['id']); ?>
     <p>
       <?php 
          echo form_label('Motak: ', 'motak');
-          echo form_dropdown('motak_id', $motak, $erabiltzailea->mota_id);
+          echo form_dropdown('motak_id', $motak, $erabiltzailea['mota_id']);
         // echo form_input('motak_id', set_value('motak_id'), 'id="motak_id" autofocus');
       ?>
    </p>
      <p>
       <?php 
          echo form_label('Name: ', 'izena');
-         echo form_input('izena', $erabiltzailea->izena, 'id="izena" autofocus');
+         echo form_input('izena', $erabiltzailea['izena'], 'id="izena" autofocus');
       ?>
    </p>
    <p>
       <?php 
          echo form_label('Email Address: ', 'email');
-         echo form_input('email', $erabiltzailea->email, 'id="email" autofocus');
+         echo form_input('email', $erabiltzailea['email'], 'id="email" autofocus');
       ?>
    </p>
 
@@ -36,7 +36,7 @@
       <?php 
          echo form_label('Password:', 'pasahitza');
          echo form_password('pasahitza', '', 'id="pasahitza"');
-         if (!empty($erabiltzailea->pasahitza)) {
+         if (!empty($erabiltzailea['pasahitza[')) {
             echo "<span style='background-color:blue;color:white;padding:3px;'>Tiene contraseña</span>";
          } else {
            echo "<p style='background-color:red;color:white;padding:3px;'>No Tiene contraseña</p>";
@@ -50,4 +50,3 @@
    <?php echo form_close(); ?>
 
    <?php echo validation_errors(); ?>
-

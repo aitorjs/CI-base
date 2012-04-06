@@ -2,14 +2,17 @@
 
 /* TODO El id = null y si existe ese id en edit y delete meterlo en una funcion local ( _local) 
 poniendo un nombre que leyendolo se sepa que hace idNotNullAndExist()?  */
-class Erabiltzailea_model extends CI_Model {
+class Erabiltzailea_model extends MY_Model {
     function __construct()
     {
         session_start();
         parent::__construct();
+        $this->table_name = 'erabiltzaileak';
+        $this->primary_key = 'id';
+        $this->order_by = 'id DESC';
     }
     
-    function get_erabiltzaileak($num, $offset) {
+  function get_erabiltzaileak($num, $offset) {
         $query = $this->db->get('erabiltzaileak', $num, $offset);  
         return $query->result();
     }
@@ -28,7 +31,7 @@ class Erabiltzailea_model extends CI_Model {
         return false;
     }
 
-    function add_erabiltzailea()
+  /*  function add_erabiltzailea()
     {
      // mota_id ez bada definititzen erabiltzailea (2) bezala sortuko du.
         $this->mota_id = $this->input->post('motak_id');
@@ -39,7 +42,7 @@ class Erabiltzailea_model extends CI_Model {
         $this->created = $this->created->format('Y-m-d H:i:s');
         
         $this->db->insert('erabiltzaileak', $this);
-    }
+    }*/
 
     function get_motak()
     {
@@ -52,7 +55,7 @@ class Erabiltzailea_model extends CI_Model {
         return $motak;
     }
 
-    function get_erabiltzailea($id)
+  /*  function get_erabiltzailea($id)
     {
         $this->db->where('id', $id);
         $this->db->limit(1);
@@ -63,9 +66,9 @@ class Erabiltzailea_model extends CI_Model {
         }
         return false;
 
-    }
+    }*/
 
-    function edit_erabiltzailea($id)
+    /*function edit_erabiltzailea($id)
     {
         $this->mota_id = $this->input->post('motak_id');
         $this->izena = $this->input->post('izena');
@@ -81,7 +84,7 @@ class Erabiltzailea_model extends CI_Model {
     function delete_erabiltzailea($id)
     {
         $this->db->delete('erabiltzaileak', array('id' => $id));
-    }
+    }*/
 
     function count_all_erabiltzaileak()
     {
