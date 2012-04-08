@@ -5,7 +5,7 @@ poniendo un nombre que leyendolo se sepa que hace idNotNullAndExist()?  */
 class Erabiltzailea_model extends MY_Model {
     function __construct()
     {
-        session_start();
+       // session_start();
         parent::__construct();
         $this->table_name = 'erabiltzaileak';
         $this->primary_key = 'id';
@@ -44,15 +44,15 @@ class Erabiltzailea_model extends MY_Model {
         $this->db->insert('erabiltzaileak', $this);
     }*/
 
-    function get_motak()
+     function get_groups()
     {
-        $this->db->select('id, izena');
-        $query = $this->db->get('motak');
+        $this->db->select('id, name');
+        $query = $this->db->get('groups');
         $query = $query->result();
-        foreach ($query as $izena) {
-            $motak[$izena->id] = $izena->izena;
+        foreach ($query as $name) {
+            $groups[$name->id] = $name->name;
         }
-        return $motak;
+        return $groups;
     }
 
   /*  function get_erabiltzailea($id)

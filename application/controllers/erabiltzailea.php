@@ -57,7 +57,7 @@ class Erabiltzailea extends CI_Controller {
         if ($this->form_validation->run() !== false) {
           $this->created = new DateTime;
           $data = array(
-              'mota_id' => $this->input->post('motak_id'),
+              'group_id' => $this->input->post('group_id'),
               'izena' => $this->input->post('izena'),
               'email' => $this->input->post('email'),
               'pasahitza' => md5($this->input->post('pasahitza')),
@@ -71,7 +71,7 @@ class Erabiltzailea extends CI_Controller {
             redirect('erabiltzailea');
           }
         } else {
-          $data['motak'] = $this->erabiltzailea_model->get_motak();
+          $data['groups'] = $this->erabiltzailea_model->get_groups();
           $data['subview'] = 'erabiltzailea/add';
           $this->load->view('layouts/layout', $data);
          // $this->load->view('erabiltzailea/add', $data);
@@ -93,7 +93,8 @@ class Erabiltzailea extends CI_Controller {
         if ($this->erabiltzailea_model->get($id) == false) {
           redirect('erabiltzailea/');
         }
-        
+        $this->load->module('login');
+        $this->login->accessAndPermissions();
         $data['title'] = 'Update Erabiltzailea';
         $data['heading'] = 'Update Erabiltzailea';
 
@@ -105,7 +106,7 @@ class Erabiltzailea extends CI_Controller {
         if ($this->form_validation->run() !== false) {
            $this->updated = new DateTime;
            $data = array(
-            'mota_id' => $this->input->post('motak_id'),
+            'group_id' => $this->input->post('group_id'),
             'izena' => $this->input->post('izena'),
             'email' => $this->input->post('email'),
             'updated' => $this->updated->format('Y-m-d H:i:s'));
@@ -124,7 +125,7 @@ class Erabiltzailea extends CI_Controller {
         } else {
           $data['erabiltzailea'] = $this->erabiltzailea_model->get($id);
          // var_dump($data['erabiltzailea']);
-          $data['motak'] = $this->erabiltzailea_model->get_motak();
+          $data['groups'] = $this->erabiltzailea_model->get_groups();
           // $this->load->view('erabiltzailea/edit', $data);
           $data['subview'] = 'erabiltzailea/update';
           $this->load->view('layouts/layout', $data);

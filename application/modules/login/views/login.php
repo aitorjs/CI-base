@@ -1,7 +1,8 @@
-   <h1> Please Login</h1>
-   <?php if (validation_errors()) { ?>
+ <h1> Please Login24</h1>
+         <?php echo validation_errors();
+               echo $this->session->flashdata('message_error');?> 
+  <?php if (validation_errors() OR $this->session->flashdata('message_error')) { ?>
       <div class="message_error">
-         <?php echo validation_errors();?> 
       </div>
    <?php } ?>
  
@@ -10,21 +11,7 @@
       <?php echo $this->session->flashdata('message_ok');?> 
    </div>
    <?php } ?>
-
-   <?php echo form_open('erabiltzailea/add'); ?>
-    <p>
-      <?php 
-         echo form_label('Groups: ', 'groups');
-          echo form_dropdown('groupa_id', $groups, 2);
-        // echo form_input('motak_id', set_value('motak_id'), 'id="motak_id" autofocus');
-      ?>
-   </p>
-     <p>
-      <?php 
-         echo form_label('Name: ', 'izena');
-         echo form_input('izena', set_value('izena'), 'id="izena" autofocus');
-      ?>
-   </p>
+   <?php echo form_open('login/'); ?>
    <p>
       <?php 
          echo form_label('Email Address: ', 'email');

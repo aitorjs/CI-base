@@ -1,6 +1,6 @@
 <?php $this->load->view('layouts/admin/header'); ?>
 <body>
-	  <?php if (isset($_SESSION['username'])) {
+	  <?php if (isset($_SESSION['user'])) {
          $this->load->view('layouts/admin/user_menu');
       } 		
 	?>

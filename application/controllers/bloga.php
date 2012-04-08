@@ -5,8 +5,9 @@ class Bloga extends CI_Controller {
     {
         session_start();
         parent::__construct();
-        if (!isset($_SESSION['username'])) {
-         redirect('erabiltzailea/login');
+
+        if (!isset($_SESSION['user'])) {
+         redirect('login');
         }
         $this->load->model('bloga_model'); 
     }

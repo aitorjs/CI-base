@@ -1,1 +1,1 @@
-<span><a href="erabiltzailea/logout">Logout</a></span>
+<span><a href="login/logout">Logout</a></span>

@@ -12,13 +12,13 @@
    <?php } ?>
    
    <?php echo form_open('erabiltzailea/update/'.$erabiltzailea['id']); ?>
-    <p>
+   <p>
       <?php 
-         echo form_label('Motak: ', 'motak');
-          echo form_dropdown('motak_id', $motak, $erabiltzailea['mota_id']);
+         echo form_label('Groups: ', 'groups_id');
+          echo form_dropdown('groups_id', $groups_id, $erabiltzailea['group_id']);
         // echo form_input('motak_id', set_value('motak_id'), 'id="motak_id" autofocus');
       ?>
-   </p>
+    </p>
      <p>
       <?php 
          echo form_label('Name: ', 'izena');
