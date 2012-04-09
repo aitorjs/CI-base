@@ -1,0 +1,24 @@
+// Sacar los permisos que hay por grupo de usuarios. Si se quiere
+tener datos del 
+
+SELECT *
+FROM `groups`
+JOIN groups_permissions ON groups.id = groups_permissions.group_id
+JOIN permissions ON permissions.id = groups_permissions.permission_id
+WHERE groups.id =2
+
+
+SELECT *
+FROM `erabiltzaileak`
+JOIN groups_permissions ON erabiltzaileak.group_id = groups_permissions.group_id
+JOIN groups ON groups_permissions.group_id = groups.id
+JOIN permissions ON permissions.id = groups_permissions.permission_id
+WHERE erabiltzaileak.id =2
+
+SELECT *
+FROM `erabiltzaileak`
+JOIN groups_permissions ON erabiltzaileak.group_id = groups_permissions.group_id
+JOIN groups ON groups_permissions.group_id = groups.id
+JOIN permissions ON permissions.id = groups_permissions.permission_id
+JOIN blogak ON blogak.erabiltzailea_id = erabiltzaileak.id
+WHERE erabiltzaileak.id =2

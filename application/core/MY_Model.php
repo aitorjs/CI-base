@@ -102,6 +102,22 @@ class MY_Model extends CI_Model {
         $method = $single ? 'row_array' : 'result_array';
         return $this->db->get($this->table_name)->$method();
     }
+
+     /**
+     * Get the data per page for the pagination
+     *
+     * @param int $num Number of rows per page
+     * @param int $offset First row of the page
+     * @uses get
+     * @return array
+     * @author Aitor Ibañez
+     */
+
+    public function get_pagination($num, $offset, $single = FALSE) {
+        $method = $single ? 'row_array' : 'result_array';
+        return $this->db->get($this->table_name, $num, $offset)->$method();  
+        //return $query->result();
+    }
     
      /**
      * Get one or more records as a key=>value pair array.
@@ -183,13 +199,36 @@ class MY_Model extends CI_Model {
 
         return $data;
     }
-    
+
+
     /**
-     * Save or update a record.
+     * Return the number of rows of all table or using the key/value
+     * as where.
+     * @param string $key_field The field that holds the key
+     * @param string $value_field The field that holds the value
+     * @return int
+     * @author Joost van Veen
+     */
+     //$this->erabiltzailea_mode->count(); Todos
+     //$this->erabiltzailea_mode->count('author', 'paco'); Los de paco
+     public function count($key_field = FALSE, $value_field = FALSE) {
+         if ($key_field == FALSE OR $value_field == FALSE) {
+            return $this->db->count_all($this->table_name);
+         }
+         return $this->db->where($key_field, $value_field)->count_all($this->table_name);
+     }   
+        
+    
+     /**
+     * Turn a multidimensional array into an associative array, where the index 
+     * equals the value of the first index. 
      * 
-     * @param array $data
-     * @param mixed $id Optional
-     * @return mixed The ID of the saved record
+     * Example output:
+     * array(0 => array('pag_id' => 23, 'pag_title' => 'foo'))
+     * becomes
+     * array(23 => array('pag_id' => 23, 'pag_title' => 'foo'))
+     * @param $array
+     * @return int
      * @author Joost van Veen
      */
     public function save($data, $id = FALSE) {
