@@ -12,12 +12,12 @@ class Groups_model extends MY_Model {
         $this->order_by = 'id DESC';
     }
     
-    function get_pagination($num, $offset) {
+    public function get_pagination($num, $offset) {
         $query = $this->db->get($this->table_name, $num, $offset);  
         return $query->result();
     }
 
-    function verify_user($email, $pasahitza)
+    public function verify_user($email, $pasahitza)
     {
         $this->db->where('email', $email);
         $this->db->where('pasahitza', md5($pasahitza));
@@ -31,20 +31,8 @@ class Groups_model extends MY_Model {
         return false;
     }
 
-  /*  function add_erabiltzailea()
-    {
-     // mota_id ez bada definititzen erabiltzailea (2) bezala sortuko du.
-        $this->mota_id = $this->input->post('motak_id');
-        $this->izena = $this->input->post('izena');
-        $this->email = $this->input->post('email');
-        $this->pasahitza = md5($this->input->post('pasahitza'));
-        $this->created = new DateTime;
-        $this->created = $this->created->format('Y-m-d H:i:s');
-        
-        $this->db->insert('erabiltzaileak', $this);
-    }*/
-
-     function get_groups()
+    // TODO: Meter el where de active
+     public function get_groups()
     {
         $this->db->select('id, name');
         $query = $this->db->get('groups');
@@ -55,39 +43,79 @@ class Groups_model extends MY_Model {
         return $groups;
     }
 
-  /*  function get_erabiltzailea($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->limit(1);
-        $query = $this->db->get('erabiltzaileak');
-         if ($query->num_rows() > 0)
-        {   
-            return $query->row();
-        }
-        return false;
-
-    }*/
-
-    /*function edit_erabiltzailea($id)
-    {
-        $this->mota_id = $this->input->post('motak_id');
-        $this->izena = $this->input->post('izena');
-        $this->email = $this->input->post('email');
-        if ($this->input->post('pasahitza') != null) {
-            $this->pasahitza = md5($this->input->post('pasahitza'));
-        }
-        $this->updated = new DateTime;
-        $this->updated = $this->updated->format('Y-m-d H:i:s');
-        $this->db->update('erabiltzaileak', $this, array('id' => $id));
-    }
-  
-    function delete_erabiltzailea($id)
-    {
-        $this->db->delete('erabiltzaileak', array('id' => $id));
-    }*/
-
-    function count_all()
+    public function count_all()
     {
         return $this->db->count_all($this->table_name);
+    }
+
+    public function get_all_groups()
+    {
+        $this->db->select('id, name, active');
+        $this->db->where('active', 1);
+        $this->db->where('name !=', 'admin');
+
+        $query = $this->db->get('groups');
+        $query = $query->result();
+        return $query;
+    }
+
+    //TODO: Meterlo en permiso
+     public function get_all_permissions()
+    {
+        $this->db->select('id, name, active');
+        $this->db->where('active', 1);
+     
+        $query = $this->db->get('permissions');
+        $query = $query->result();
+        return $query;
+    }
+
+    public function permissions_by_group()
+    {
+        
+        $this->db->join('groups_permissions', 'groups.id = groups_permissions.group_id');
+        $this->db->join('permissions', 'permissions.id = groups_permissions.permission_id');
+        //$this->db->order_by('groups_permissions.group_id', 'DESC');
+        foreach ($this->db->get('groups')->result_array() as $permissions_by_group)
+        {
+            $p_by_g[$permissions_by_group['group_id'].'.'.$permissions_by_group['permission_id']] = 
+                    $permissions_by_group['group_id'].'.'.$permissions_by_group['permission_id'];
+        }
+          // echo "HOLA";var_dump($p_by_g);
+       // return $this->db->get('groups')->result_array();
+        //var_dump($p_by_g); exit();
+        return $p_by_g;
+    }
+
+    //TODO: Meterlo en groups_permissions
+    public function get_permissions_by_group($group_id, $permission_id)
+    {
+        
+        $this->db->where('group_id', $group_id);
+        $this->db->where('permission_id', $permission_id);
+
+        $this->db->limit(1);
+        $group_permission = $this->db->get('groups_permissions');
+        if ($group_permission->num_rows() > 0)
+        {
+            return TRUE;  
+        }
+        return FALSE;
+    }
+
+    //TODO: Meterlo en groups_permissions
+    public function add_permission_by_group($group_id, $permission_id)
+    {
+        $data = array(
+        'group_id' => $group_id,
+        'permission_id' => $permission_id
+        );
+        $this->db->insert('groups_permissions', $data);
+    }
+
+    //TODO: Meterlo en groups_permissions
+    public function delete_permissions_by_group()
+    {
+        $this->db->empty_table('groups_permissions');
     }
 }

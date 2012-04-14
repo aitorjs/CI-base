@@ -31,17 +31,6 @@ class Login_model extends CI_Model{
        // var_dump($query); exit();
         //  return $query->result();
     }
-
-    /*public function get_groups()
-    {
-        $this->db->select('id, name');
-        $query = $this->db->get('groups');
-        $query = $query->result();
-        foreach ($query as $name) {
-            $groups[$name->id] = $name->name;
-        }
-        return $groups;
-    }*/
 }
 
 ?>

@@ -31,19 +31,6 @@ class Erabiltzailea_model extends MY_Model {
         return false;
     }
 
-  /*  function add_erabiltzailea()
-    {
-     // mota_id ez bada definititzen erabiltzailea (2) bezala sortuko du.
-        $this->mota_id = $this->input->post('motak_id');
-        $this->izena = $this->input->post('izena');
-        $this->email = $this->input->post('email');
-        $this->pasahitza = md5($this->input->post('pasahitza'));
-        $this->created = new DateTime;
-        $this->created = $this->created->format('Y-m-d H:i:s');
-        
-        $this->db->insert('erabiltzaileak', $this);
-    }*/
-
      function get_groups()
     {
         $this->db->select('id, name');
@@ -54,37 +41,6 @@ class Erabiltzailea_model extends MY_Model {
         }
         return $groups;
     }
-
-  /*  function get_erabiltzailea($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->limit(1);
-        $query = $this->db->get('erabiltzaileak');
-         if ($query->num_rows() > 0)
-        {   
-            return $query->row();
-        }
-        return false;
-
-    }*/
-
-    /*function edit_erabiltzailea($id)
-    {
-        $this->mota_id = $this->input->post('motak_id');
-        $this->izena = $this->input->post('izena');
-        $this->email = $this->input->post('email');
-        if ($this->input->post('pasahitza') != null) {
-            $this->pasahitza = md5($this->input->post('pasahitza'));
-        }
-        $this->updated = new DateTime;
-        $this->updated = $this->updated->format('Y-m-d H:i:s');
-        $this->db->update('erabiltzaileak', $this, array('id' => $id));
-    }
-  
-    function delete_erabiltzailea($id)
-    {
-        $this->db->delete('erabiltzaileak', array('id' => $id));
-    }*/
 
     function count_all_erabiltzaileak()
     {

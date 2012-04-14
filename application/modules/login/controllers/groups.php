@@ -4,11 +4,11 @@ class Groups extends CI_Controller {
     public $data = array('subview' => 'Oops, forgot to set a subview');
 
 	 function __construct()
-    {
+   {
         parent::__construct();
         $this->load->model('groups_model');
         $this->load->helper('url');
-    }
+   }
 
     function index()
     {
@@ -105,7 +105,6 @@ class Groups extends CI_Controller {
 
         if ($this->form_validation->run() !== false) {
            $this->updated = new DateTime;
-           var_dump($this->input->post('active'));
            if ($this->input->post('active') !== false)  $active = 1;
            else $active = 0;
            $data = array(
@@ -152,95 +151,38 @@ class Groups extends CI_Controller {
       redirect('login/groups/');
     }
 
-   /* function index()
+    public function all()
     {
-        if ($this->uri->segment(3) > $this->erabiltzailea_model->count_all_erabiltzaileak()) {
-          redirect('erabiltzailea/');
-        }
-        $this->load->library('pagination');
-        $config['base_url'] = base_url().'erabiltzailea/index';
-        $config['total_rows'] = $this->erabiltzailea_model->count_all_erabiltzaileak();
-       // $config['total_rows'] = '20';
-        $config['per_page'] = '5';
-        $config['first_link'] = 'Hasiera';
-        $config['last_link'] = 'Azkena';
+        //$this->load->module('login');
+        //$this->login->accessAndPermissions();
+        $data['title'] =  'Permissions by groups';
+        $data['heading'] = 'Permissions by groups';
 
-        //$config['uri_segment'] = 2;
-        $this->pagination->initialize($config);
-        $data['pagination'] = $this->pagination->create_links();
-
-        $data['title'] = 'Erabiltzaileak';
-        $data['heading'] = 'Erabiltzaileak';
-
-        $data['data'] = $this->erabiltzailea_model->get_erabiltzaileak($config['per_page'],$this->uri->segment(3));
-       // var_dump($data['data']);
-        // $data['results'] = $this->books_model->get_books($config['per_page'],$this->uri->segment(3));
-
-        $data['subview'] = 'erabiltzailea/index';
-        $this->load->view('layouts/layout', $data);
-        //$this->load->view('erabiltzailea/index', $data);
-    }
-
-     function add()
-    {
-        $data['title'] = 'Add Erabiltzailea';
-        $data['heading'] = 'Add Erabiltzailea';
-
-        $this->load->library('form_validation');
-         $this->form_validation->set_rules('izena', 'Name', 'required|min_length[4]');
-        $this->form_validation->set_rules('email', 'Email Address', 'valid_email|required');
-        $this->form_validation->set_rules('pasahitza', 'Password', 'required|min_length[8]');
-
-        if ($this->form_validation->run() !== false) {
-          $data['data'] = $this->erabiltzailea_model->add_erabiltzailea();
-          $this->session->set_flashdata('message_ok', $this->input->post('izena').' erabiltzaile berria sortu duzu.');
-          redirect('erabiltzailea');
+        //$this->load->library('form_validation');
+        //$this->form_validation->set_rules('name', 'Name', 'required|min_length[4]');
+        $submit = $this->input->post('submit');
+          if ($submit) {
+             $this->groups_model->delete_permissions_by_group();
+             foreach ($this->input->post() as $data)
+             {
+              $datar = explode('.', $data);
+              if ($datar[0] != 'Login') {
+                  $this->groups_model->add_permission_by_group($datar[0], $datar[1]);
+                  $y = 'saved';
+              }
+             }
+            // exit();
+             if (isset($y)) {
+                $this->session->set_flashdata('message_ok', 'Eguneratu duzu.');
+             redirect('login/groups/all');
+             }
+             redirect('login/groups/all');
         } else {
-          $data['motak'] = $this->erabiltzailea_model->get_motak();
-          $data['subview'] = 'erabiltzailea/add';
-          $this->load->view('layouts/layout', $data);
-         // $this->load->view('erabiltzailea/add', $data);
-        }
-    }
-
-    function edit($id = null)
-    {
-        if ($id == null) {
-          redirect('erabiltzailea/');
-        }
-        if ($this->erabiltzailea_model->get_erabiltzailea($id) == false) {
-          redirect('erabiltzailea/');
-        }*/
-        /* TOOO: Añadir logotipo */
-      /*  $data['title'] = 'Edit Erabiltzailea';
-        $data['heading'] = 'Edit Erabiltzailea';
-
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('izena', 'Name', 'required|min_length[4]');
-        $this->form_validation->set_rules('email', 'Email Address', 'valid_email|required');
-        $this->form_validation->set_rules('pasahitza', 'Password', 'min_length[8]');
-        if ($this->form_validation->run() !== false) {
-          $data['data'] = $this->erabiltzailea_model->edit_erabiltzailea($id);
-          $this->session->set_flashdata('message_ok', $this->input->post('izena').' erabiltzailea eguneratu duzu.');
-          redirect('erabiltzailea/');
-        } else {
-          $data['erabiltzailea'] = $this->erabiltzailea_model->get_erabiltzailea($id);
-          $data['motak'] = $this->erabiltzailea_model->get_motak();
-          // $this->load->view('erabiltzailea/edit', $data);
-          $data['subview'] = 'erabiltzailea/edit';
+          $data['groups'] = $this->groups_model->get_all_groups();
+          $data['permissions'] = $this->groups_model->get_all_permissions();
+          $data['permissions_by_group'] = $this->groups_model->permissions_by_group();
+          $data['subview'] = 'login/groups/all';
           $this->load->view('layouts/layout', $data);
         }
     }
-
-    function delete($id = null) {
-      if ($id == null) {
-        redirect('erabiltzailea/');
-      }
-      if ($this->erabiltzailea_model->get_erabiltzailea($id) == false) {
-          redirect('erabiltzailea/');
-        }
-      $data['data'] = $this->erabiltzailea_model->delete_erabiltzailea($id);
-      $this->session->set_flashdata('message_ok', $this->input->post('izena').' erabiltzailea ezabatu duzu.');
-      redirect('erabiltzailea/');
-    }*/
 }

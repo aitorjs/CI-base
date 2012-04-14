@@ -22,8 +22,8 @@ class Login extends CI_Controller {
       $data['heading'] = 'Erabiltzaileak';
 
       $this->load->library('form_validation');
-      $this->form_validation->set_rules('email', 'Email Address', 'valid_email|required');
-      $this->form_validation->set_rules('pasahitza', 'Password', 'required|min_length[4]');
+      $this->form_validation->set_rules('email', 'Email Address', 'required|trim|valid_email');
+      $this->form_validation->set_rules('pasahitza', 'Password', 'required|trim|min_length[4]');
 
       if ($this->form_validation->run() !== false) {
           $res = $this
@@ -59,12 +59,13 @@ class Login extends CI_Controller {
 
     public function accessAndPermissions() {
         if (!isset($_SESSION['user'])) {
-          redirect('erabiltzailea/login');
+          $this->session->set_flashdata('message_error', 'Logeatu zaitez!.');
+          redirect('login/login');
         }
         if (!in_array($this->uri->segment(1).'/'.$this->uri->segment(2), $_SESSION['permissions'])) {
           //echo "aaaaaaaa"; exit();
           $this->session->set_flashdata('message_error', 'Ez duzu baimenik hor sartzeko.');
-          redirect('erabiltzailea/');
+          redirect('login/erabiltzailea');
         }
    }
 }
