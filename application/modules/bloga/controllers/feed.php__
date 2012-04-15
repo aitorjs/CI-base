@@ -1,0 +1,28 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Feed extends CI_Controller {
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->load->helper('xml');
+		$this->load->helper('text');
+        $this->load->model('bloga_model');
+	}
+
+	function index()
+	{
+		$data['feed_name'] = 'MyWebsite.com';
+		$data['encoding'] = 'utf-8';
+        $data['feed_url'] = 'http://localhost/CodeIgniter_2.1.0/feed';
+        $data['page_description'] = 'What my site is about comes here';
+        $data['page_language'] = 'es';
+        $data['creator_email'] = 'freelance@aitoribanez.com';
+        $data['blogak'] = $this->bloga_model->get_blogak(10);
+        header("Content-Type: application/rss+xml");
+
+		$this->load->view('feed/rss', $data);
+	}
+
+}

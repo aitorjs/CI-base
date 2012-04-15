@@ -1,1 +1,0 @@
-<span><a href="login/logout">Logout</a></span>

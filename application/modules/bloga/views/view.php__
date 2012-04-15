@@ -1,0 +1,18 @@
+<?php $this->load->view('layouts/admin/header'); ?>
+<body>
+	  <?php if (isset($_SESSION['user'])) {
+         $this->load->view('layouts/admin/user_menu');
+      } 		
+	?>
+	<h1> Bloga</h1>
+	<?php foreach ($bloga as $blog):?>
+	<ul>
+		<li><?php echo $blog->erabiltzailea_id; ?></li>
+		<li><?php echo $blog->izenburua ?></li>
+		<li><?php echo $blog->edukia ?></li>
+	</ul>
+	<?php endforeach;?>
+	<?php echo validation_errors(); ?>
+	<?php $this->load->view('layouts/admin/footer');?>
+</body>
+</html>
