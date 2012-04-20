@@ -30,7 +30,12 @@ class Bloga extends CI_Controller {
         $data['heading'] = 'Blogak by erabiltzailea';
 
         $data['data'] = $this->bloga_model->get_blogak_by_erabiltzaile($id);
-        $this->load->view('bloga/bloga/by_erabiltzailea', $data);
+        $data['subview'] = 'bloga/bloga/by_erabiltzailea';
+      //  $this->load->view('bloga/bloga/by_erabiltzailea', $data);
+        $this->template
+        ->set_theme('prueba') // application/themes/prueba
+        ->set_layout('layout') // application/themes/prueba/views/layouts/layout.php
+        ->build('bloga/bloga/by_erabiltzailea', $data); // application/modules/login/views/login.php
     }
 
     public function feed() {

@@ -48,7 +48,15 @@ class Login extends CI_Controller {
       }
       //$this->load->view('erabiltzailea/login');
       $data['subview'] = 'login/login';
-      $this->load->view('layouts/layout', $data);
+      //$this->load->view('layouts/layout', $data);
+
+      // lo mismo que load->view
+      //$this->template->build('erabiltzailea/login', $data);
+
+      $this->template
+        ->set_theme('prueba') // application/themes/prueba
+        ->set_layout('layout') // application/themes/prueba/views/layouts/layout.php
+        ->build('login/login', $data); // application/modules/login/views/login.php
     }
 
     public function logout()
