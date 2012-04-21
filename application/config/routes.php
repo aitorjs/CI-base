@@ -41,6 +41,10 @@
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
+$route['erabiltzailea'] = 'login/erabiltzailea';
+$route['erabiltzailea/(:any)'] = 'login/erabiltzailea/$1';
+$route['erabiltzailea/(:any)/(:any)'] = 'login/erabiltzailea/$1/$2';
 
-/* End of file routes.php */
-/* Location: ./application/config/routes.php */
+$route['groups'] = 'login/groups';
+$route['groups/(:any)'] = 'login/groups/$1';
+$route['groups/(:any)/(:any)'] = 'login/groups/$1/$2';

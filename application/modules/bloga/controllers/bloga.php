@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Bloga extends CI_Controller {
+class Bloga extends Public_Controller {
    function __construct()
     {
         session_start();
@@ -31,11 +31,13 @@ class Bloga extends CI_Controller {
 
         $data['data'] = $this->bloga_model->get_blogak_by_erabiltzaile($id);
         $data['subview'] = 'bloga/bloga/by_erabiltzailea';
-      //  $this->load->view('bloga/bloga/by_erabiltzailea', $data);
+      
+        // set_layout('layout') es la plantilla publica
+        // set_layout('admin') es la plantilla admin que usa bootstrap
+        
         $this->template
-        ->set_theme('prueba') // application/themes/prueba
-        ->set_layout('layout') // application/themes/prueba/views/layouts/layout.php
-        ->build('bloga/bloga/by_erabiltzailea', $data); // application/modules/login/views/login.php
+          ->set_layout('admin') // application/themes/prueba/views/layouts/layout.php
+          ->build('bloga/bloga/by_erabiltzailea', $data); // application/modules/login/views/login.php
     }
 
     public function feed() {

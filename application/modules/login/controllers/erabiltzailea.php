@@ -87,7 +87,7 @@ class Erabiltzailea extends CI_Controller {
      */
     public function update($id = null) {
 
-         if ($id == null) {
+        if ($id == null) {
           redirect('login/erabiltzailea/');
         }
         if ($this->erabiltzailea_model->get($id) == false) {

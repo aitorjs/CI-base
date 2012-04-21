@@ -42,6 +42,17 @@ class Erabiltzailea_model extends MY_Model {
         return $groups;
     }
 
+      function get_erabiltzaileak()
+    {
+        $this->db->select('id, izena');
+        $query = $this->db->get($this->table_name);
+        $query = $query->result();
+        foreach ($query as $erabiltzailea) {
+            $erabiltzaileas[$erabiltzailea->id] = $erabiltzailea->izena;
+        }
+        return $erabiltzaileas;
+    }
+
     function count_all_erabiltzaileak()
     {
         return $this->db->count_all($this->table_name);
